@@ -13,7 +13,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
+        self.__name = name
         self.price = price
         self.quantity = quantity
         self.all.append(self)
@@ -32,3 +32,16 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+    def instantiate_from_csv(self):
+        pass
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self):
+        if len(self.__name) > 10:
+            return self.__name[:10]
+
