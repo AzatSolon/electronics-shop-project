@@ -1,3 +1,14 @@
+import csv
+
+
+class InstantiateCVSError(Exception):
+    def __init__(self, *args):
+        self.message = args[0] if args else "Файл item.csv поврежден"
+
+    def __str__(self):
+        return self.message
+
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -33,15 +44,47 @@ class Item:
         """
         self.price *= self.pay_rate
 
-    def instantiate_from_csv(self):
-        pass
-
     @property
     def name(self):
+        """
+        name getter
+        """
         return self.__name
 
     @name.setter
-    def name(self):
-        if len(self.__name) > 10:
-            return self.__name[:10]
+    def name(self, newname):
+        """
+        name setter < 10 символов
+        """
+        if len(newname) <= 10:
+            self.__name = newname
+            print(f'Корректное название - {newname}')
+        else:
+            self.__name = newname[:10]
+            print(f'Длина наименования товара превышает 10 символов - {newname[:10]}')
 
+    @classmethod
+    def instantiate_from_csv(cls, file_path='../src/items.csv') -> None:
+        """
+        инициализирующий экземпляры класса Item данными из файла src/items.csv
+        """
+        try:
+            with open(file_path, 'r') as file:
+                cls.all.clear()
+                reader = csv.DictReader(file)
+                for row in reader:
+                    name = row['name']
+                    price = float(row['price'])
+                    quantity = int(row['quantity'])
+                    cls(name, price, quantity)
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл items.csv')
+        except KeyError:
+            raise InstantiateCVSError('Файл item.csv поврежден')
+
+    @staticmethod
+    def string_to_number(name):
+        """
+        Возвращает число из числа-строки
+        """
+        return int(float(name))
