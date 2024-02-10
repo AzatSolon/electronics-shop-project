@@ -48,3 +48,11 @@ def test_string_to_number_with_invalid_string():
     string = "abc"
     with pytest.raises(ValueError):
         Item.string_to_number(string)
+
+
+def test_repr(product):
+    assert repr(product) == "Item('Фонарик', 100, 10)"
+
+
+def test_str(product):
+    assert str(product) == "Фонарик"
