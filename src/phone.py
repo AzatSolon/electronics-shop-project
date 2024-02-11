@@ -8,7 +8,7 @@ class Phone(Item):
 
     def __init__(self, name: str, price: float, quantity: int, number_of_sim: int):
         super().__init__(name, price, quantity)
-        self.number_of_sim = number_of_sim
+        self.__number_of_sim = number_of_sim
 
     @classmethod
     def get_classname(cls):
@@ -19,3 +19,16 @@ class Phone(Item):
 
     def __str__(self):
         return f'{self.name}'
+
+    @property
+    def number_of_sim(self):
+        return self.__number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, sim):
+        if sim <= 0:
+            print(
+                'ValueError: Количество SIM-карт должно '
+                'быть целым числом больше нуля.')
+        else:
+            self.__number_of_sim = sim
