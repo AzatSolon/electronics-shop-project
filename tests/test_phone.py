@@ -20,3 +20,12 @@ def test_phonerepr(product):
 
 def test_phonestr(product):
     assert str(product) == "Фонарик"
+
+
+def test_number_of_sim(product, test_item1):
+    test_item1.number_of_sim = 2
+    assert test_item1.number_of_sim == 2
+    with pytest.raises(ValueError):
+        product.number_of_sim = -1
+        product.number_of_sim = 0
+        product.number_of_sim = 1.2
