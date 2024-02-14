@@ -4,6 +4,17 @@ from src.item import Item
 from src.phone import Phone
 
 
+class Dog:
+    def __init__(self, name: str, years_old: int):
+        self.name = name
+        self.years_old = years_old
+
+
+@pytest.fixture
+def dog():
+    return Dog("Spot", 3)
+
+
 @pytest.fixture
 def product_phone():
     return Phone("Iphone 10", 30000, 15, 2)
@@ -64,5 +75,14 @@ def test_str(product):
     assert str(product) == "Фонарик"
 
 
-def test_add(product, product_phone):
+def test_add(product, product_phone, dog):
     assert product + product_phone == 25
+    with pytest.raises(TypeError):
+        product_phone + dog
+
+
+def test_name(product):
+    product.name = "12342456Суперсмарт"
+    assert product.name == "12342456Су"
+    product.name = "Звонилка"
+    assert product.name == "Звонилка"

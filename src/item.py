@@ -86,7 +86,7 @@ class Item:
         """
         Сложение класса Item как родительского с дочерними
         """
-        if not isinstance(other, Item):
-            raise ValueError('Складывать можно только объекты Item и дочерние от них.')
-        else:
+        if isinstance(other, Item):
             return self.quantity + other.quantity
+        else:
+            raise TypeError("Складывать можно только объекты класса с родительским классом Item")
